@@ -1,6 +1,6 @@
-import BookViewer from "@/components/BookViewer";
-import Home from "@/components/Home";
-import MetadataContainer from "@/components/MetadataContainer";
+import BookViewer from "@/components/Homepage/BookViewer";
+import Home from "@/components/Homepage/Home";
+import MetadataContainer from "@/components/Homepage/MetadataContainer";
 import { HomepageProps } from "@/types/homepage.type";
 import addSearchParams from "@/utils/addSearchParams";
 
@@ -36,9 +36,12 @@ export default async function Homepage({
   //   }
   // };
 
-  const url = addSearchParams(`${process.env.NEXT_PUBLIC_BASE_API_URL}/book/getMetadata`, {
-    id: allSearchParams?.id || '',
-  });
+  const url = addSearchParams(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/book/getMetadata`,
+    {
+      id: allSearchParams?.id || "",
+    }
+  );
 
   const bookMetadata = await fetch(url, { method: "GET" }).then(
     async (response) => {
@@ -46,14 +49,20 @@ export default async function Homepage({
       if (!isOk) {
         return null;
       }
-      return await response.json();
+
+      const data = await response.json();
+
+      return data;
     }
   );
 
   return (
     <>
       <Home bookId={allSearchParams?.id} />
-      <MetadataContainer bookId={allSearchParams?.id} bookMetadata={bookMetadata} />
+      <MetadataContainer
+        bookId={allSearchParams?.id}
+        bookMetadata={bookMetadata}
+      />
       <BookViewer bookId={allSearchParams?.id} bookMetadata={bookMetadata} />
 
       {/* <main>

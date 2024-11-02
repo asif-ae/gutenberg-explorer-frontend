@@ -54,6 +54,29 @@ function BookViewer({
   }, [openBook]);
 
   useEffect(() => {
+    if (bookMetadata?.["Ebook No."]) {
+      const cacheData = {
+        id: bookMetadata["Ebook No."],
+        Title: bookMetadata["Title"],
+        ["Cover Image"]: bookMetadata["Cover Image"],
+      };
+
+      const previousBooks = localStorage.getItem("previous-book");
+
+      if (!previousBooks) {
+        localStorage.setItem("previous-book", JSON.stringify([cacheData]));
+      } else {
+        const newRecentBookList = [cacheData, ...JSON.parse(previousBooks)];
+        const uniqueBooks = newRecentBookList.filter(
+          (book, index, self) =>
+            index === self.findIndex((b) => b.id === book.id)
+        );
+        localStorage.setItem("previous-book", JSON.stringify(uniqueBooks));
+      }
+    }
+  }, [bookMetadata]);
+
+  useEffect(() => {
     if (!bookId || !bookMetadata) {
       setBookContent(null);
       setOpenBook(false);

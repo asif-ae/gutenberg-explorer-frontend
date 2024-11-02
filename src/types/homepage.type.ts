@@ -16,7 +16,7 @@ export type MainMetadataProps = {
     ["Credits"]?: string;
     ["Language"]?: string;
     ["Category"]?: string;
-    ["EbookNo"]?: string;
+    ["Ebook No."]?: string;
     ["Release Date"]?: string;
     ["Copyright Status"]?: string;
     ["Downloads"]?: string;
