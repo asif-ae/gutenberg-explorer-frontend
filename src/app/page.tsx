@@ -3,10 +3,11 @@ import Home from "@/components/Homepage/Home";
 import MetadataContainer from "@/components/Homepage/MetadataContainer";
 import { HomepageProps } from "@/types/homepage.type";
 import addSearchParams from "@/utils/addSearchParams";
+import { PageProps } from "../../.next/types/app/page";
 
 export default async function Homepage({
   searchParams,
-}: HomepageProps): Promise<JSX.Element> {
+}: HomepageProps & PageProps): Promise<JSX.Element> {
   const allSearchParams = await searchParams;
   // const [bookId, setBookId] = useState<string>("");
   // const [bookData, setBookData] = useState<Book | null>(null);
