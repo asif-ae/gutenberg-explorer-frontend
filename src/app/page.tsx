@@ -3,7 +3,7 @@ import Home from "@/components/Homepage/Home";
 import MetadataContainer from "@/components/Homepage/MetadataContainer";
 import { HomepageProps } from "@/types/homepage.type";
 import addSearchParams from "@/utils/addSearchParams";
-import { PageProps } from "../../.next/types/app/page";
+import { PageProps } from "../../.next/types/app/layout";
 
 export default async function Homepage({
   searchParams,
