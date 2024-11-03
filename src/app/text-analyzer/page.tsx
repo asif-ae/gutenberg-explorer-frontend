@@ -21,6 +21,7 @@ type SambaNovaResponse = {
 };
 
 export default function TextAnalyzer() {
+  const [message, setMessage] = useState<string>("Loading...");
   const [loading, setLoading] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult>({
@@ -64,6 +65,8 @@ export default function TextAnalyzer() {
       setLoading(false);
     } catch (error) {
       console.error("Error analyzing text:", error);
+      alert('Something went wrong! Please try again.');
+      setLoading(false);
     }
   };
 
@@ -143,7 +146,7 @@ export default function TextAnalyzer() {
         >
           Summary
         </button>
-        {loading ? <div className="text-lg">Loading...</div> : <></>}
+        {loading ? <div className="text-lg">{message}</div> : <></>}
       </div>
 
       <div className="results mt-6">
