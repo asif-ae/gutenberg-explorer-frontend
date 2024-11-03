@@ -46,7 +46,7 @@ export default function TextAnalyzer() {
         }
       );
 
-      const data = await response.json();
+      const data: SambaNovaResponse = await response.json();
 
       // Extract the content from the response
       const content = data.choices[0].message.content;
