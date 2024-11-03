@@ -39,6 +39,7 @@ export default function TextAnalyzer() {
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/text-analyzer/${endpoint}`,
         {
           method: "POST",
+          mode: 'no-cors',
           headers: {
             "Content-Type": "application/json",
           },
