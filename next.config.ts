@@ -3,9 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     // To support images
-    domains: [
-      "www.gutenberg.org",
-    ],
+    domains: ["www.gutenberg.org"],
     remotePatterns: [
       {
         protocol: "http",

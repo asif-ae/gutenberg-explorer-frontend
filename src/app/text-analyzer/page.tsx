@@ -21,6 +21,7 @@ type SambaNovaResponse = {
 };
 
 export default function TextAnalyzer() {
+  const [loading, setLoading] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult>({
     keyCharacters: null,
@@ -34,37 +35,37 @@ export default function TextAnalyzer() {
     if (!text) {
       return;
     }
+    setLoading(true);
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/text-analyzer/${endpoint}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ text }),
-        }
-      );
+      const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/text-analyzer/${endpoint}`;
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      };
+
+      const response = await fetch(url, options);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data: SambaNovaResponse = await response.json();
 
-      // Extract the content from the response
       const content = data.choices[0].message.content;
-
-      // Convert endpoint name from kebab-case to camelCase
       const camelCaseKey = kebabToCamelCase(endpoint) as keyof AnalysisResult;
 
-      // Update the state with the content
       setAnalysisResult((prev) => ({
         ...prev,
         [camelCaseKey]: content,
       }));
+      setLoading(false);
     } catch (error) {
       console.error("Error analyzing text:", error);
     }
   };
-
-  console.log({ analysisResult });
 
   return (
     <div className="container mx-auto py-10 px-6 text-blue-500">
@@ -94,31 +95,55 @@ export default function TextAnalyzer() {
         placeholder="Enter text here..."
       />
 
-      <div className="flex space-x-4 mb-4">
+      <div className="flex space-x-4 mb-4 items-center">
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className={`${
+            loading
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          } text-white px-4 py-2 rounded`}
           onClick={() => analyzeText("key-characters")}
+          disabled={loading}
         >
           Key Characters
         </button>
+
         <button
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          className={`${
+            loading
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-green-500 hover:bg-green-600"
+          } text-white px-4 py-2 rounded`}
           onClick={() => analyzeText("language-detection")}
+          disabled={loading}
         >
           Language Detection
         </button>
+
         <button
-          className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+          className={`${
+            loading
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-yellow-500 hover:bg-yellow-600"
+          } text-white px-4 py-2 rounded`}
           onClick={() => analyzeText("sentiment-analysis")}
+          disabled={loading}
         >
           Sentiment Analysis
         </button>
+
         <button
-          className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+          className={`${
+            loading
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-purple-500 hover:bg-purple-600"
+          } text-white px-4 py-2 rounded`}
           onClick={() => analyzeText("summary")}
+          disabled={loading}
         >
           Summary
         </button>
+        {loading ? <div className="text-lg">Loading...</div> : <></>}
       </div>
 
       <div className="results mt-6">
