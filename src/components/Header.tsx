@@ -19,6 +19,11 @@ function Header() {
                 Recent Books
               </Link>
             </li>
+            <li>
+              <Link href="/text-analyzer" className="hover:text-gray-300">
+                Text Analyzer
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
